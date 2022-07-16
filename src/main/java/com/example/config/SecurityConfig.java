@@ -24,10 +24,15 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
-                .csrf().disable().authorizeExchange()
-                .pathMatchers("/auth/registration", "/error").permitAll()
-                .and()
+                .csrf()
+                .disable()
                 .authorizeExchange()
+                .pathMatchers("/download-page", "/upload-page")
+                .hasAuthority("ROLE_ADMIN")
+                .pathMatchers("/download-page")
+                .hasAuthority("ROLE_DOWNLOAD")
+                .pathMatchers("/upload-page")
+                .hasAuthority("ROLE_UPLOAD")
                 .anyExchange()
                 .authenticated()
                 .and()

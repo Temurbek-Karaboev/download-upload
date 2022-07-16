@@ -18,15 +18,12 @@ public class DownloadController {
     public Mono<Void> downloadFile(@RequestParam("file-name") String fileName,
                                    ServerHttpResponse response ) throws IOException {
 
-        ZeroCopyHttpOutputMessage zeroCopyResponse =
-                (ZeroCopyHttpOutputMessage) response;
-        response.getHeaders().set(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=" + fileName + "");
-        response.getHeaders().setContentType(MediaType.
-                APPLICATION_OCTET_STREAM);
+        ZeroCopyHttpOutputMessage zeroCopyResponse = (ZeroCopyHttpOutputMessage) response;
+//        response.getHeaders().set(HttpHeaders.CONTENT_DISPOSITION,
+//                "attachment; filename=" + fileName + "");
+//        response.getHeaders().setContentType(MediaType.APPLICATION_OCTET_STREAM);
         ClassPathResource resource = new ClassPathResource("upload/"+ fileName);
         File file = resource.getFile();
-        return zeroCopyResponse.writeWith(file, 0,
-                file.length());
+        return zeroCopyResponse.writeWith(file, 0, file.length());
     }
 }
