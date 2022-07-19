@@ -6,6 +6,7 @@ import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import reactor.util.annotation.Nullable;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Table(name = "person")
-public class Person  {
+public class Person {
     @Id
     @Column("id")
     private int id;
@@ -33,11 +34,11 @@ public class Person  {
     private String role;
 
 
-
-    public Person(String username, int yearOfBirth, String role) {
+    public Person(String username, int yearOfBirth, String role, String password) {
         this.username = username;
         this.yearOfBirth = yearOfBirth;
         this.role = role;
+        this.password = password;
     }
 
     public String getRole() {
@@ -87,6 +88,17 @@ public class Person  {
                 '}';
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}
+
+
+
 
 
 //    @Override
@@ -114,15 +126,6 @@ public class Person  {
 //        return true;
 //    }
 //
-//    @Override
-    public String getPassword() {
-        return this.password;
-    }
 
-//    @Override
-    public String getUsername() {
-        return this.username;
-    }
-}
 
 

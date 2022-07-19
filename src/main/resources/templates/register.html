@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+</head>
+<body>
+
+<form method="POST" action="@{/registration}" enctype="text/plain">
+  <label for="username">Введите имя пользователя: </label>
+  <input type="text"  id="username" name="username"  />
+  <br/>
+  <label for="yearOfBirth">Введите год рождения: </label>
+  <input type="text"  id="yearOfBirth" name="year"/>
+
+  <br/>
+  <label for="password">Введите пароль: </label>
+  <input type="password"  id="password" name="password"/>
+
+  <br/>
+  <input type="submit" value="Sign up!"/>
+</form>
+
+</body>
+</html>
