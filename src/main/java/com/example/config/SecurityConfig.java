@@ -27,20 +27,25 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeExchange()
-                .pathMatchers("/download-page", "/upload-page")
-                .hasAuthority("ROLE_ADMIN")
-                .pathMatchers("/download-page")
-                .hasAuthority("ROLE_DOWNLOAD")
+                .pathMatchers("/registration")
+                .permitAll()
+                .and()
+                .authorizeExchange()
                 .pathMatchers("/upload-page")
-                .hasAuthority("ROLE_UPLOAD")
+                .hasAnyRole("UPLOAD", "ADMIN")
+                .pathMatchers("/download-page")
+                .hasAnyRole("DOWNLOAD", "ADMIN")
+                .and()
+                .authorizeExchange()
                 .anyExchange()
                 .authenticated()
                 .and()
                 .httpBasic()
                 .and()
                 .formLogin();
+
         return http.build();
     }
 
-
 }
+
