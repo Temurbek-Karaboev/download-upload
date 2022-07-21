@@ -19,9 +19,9 @@ public class DownloadController {
                                    ServerHttpResponse response ) throws IOException {
 
         ZeroCopyHttpOutputMessage zeroCopyResponse = (ZeroCopyHttpOutputMessage) response;
-//        response.getHeaders().set(HttpHeaders.CONTENT_DISPOSITION,
-//                "attachment; filename=" + fileName + "");
-//        response.getHeaders().setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        response.getHeaders().set(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=" + fileName + "");
+        response.getHeaders().setContentType(MediaType.APPLICATION_OCTET_STREAM);
         ClassPathResource resource = new ClassPathResource("upload/"+ fileName);
         File file = resource.getFile();
         return zeroCopyResponse.writeWith(file, 0, file.length());

@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.models.Item;
 import com.example.models.Person;
-import com.example.models.security.Role;
 import com.example.repo.ItemRepository;
 import com.example.repo.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +37,7 @@ public class PersonService implements ReactiveUserDetailsService {
     @Override
     public Mono<UserDetails> findByUsername(String username) {
         return peopleRepository.findByUsername(username)
-                .map(person -> new User(person.getUsername(), person.getPassword(),  person.getRoles()
-                        .stream()
-                        .map(
-                                authority -> new SimpleGrantedAuthority(authority.name())).collect(Collectors.toList())));
+                .map(person -> new User(person.getUsername(), person.getPassword(), List.of(new SimpleGrantedAuthority(person.getRole()))));
     }
 
     public Mono<Object> addData(String username){
@@ -56,7 +51,7 @@ public class PersonService implements ReactiveUserDetailsService {
 
     public void registerUser(Person person) {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
-//        person.setRoles("ROLE_USER".);
+        person.setRole("USER_ROLE");
         peopleRepository.save(person).subscribe();
     }
 
@@ -67,10 +62,16 @@ public class PersonService implements ReactiveUserDetailsService {
     public void init() {
         data = new HashMap<>();
 
-        //username:passwowrd -> user:user
-        data.put("user", new Person("user", "cBrlgyL2GI2GINuLUUwgojITuIufFycpLG4490dhGtY=", true, List.of(Role.ROLE_USER)));
+        //username:password -> user:user
+        data.put("user", new Person("user", "cBrlgyL2GI2GINuLUUwgojITuIufFycpLG4490dhGtY="));
 
-        //username:passwowrd -> admin:admin
-        data.put("admin", new Person("admin", "dQNjUIMorJb8Ubj2+wVGYp6eAeYkdekqAcnYp+aRq5w=", true, List.of(Role.ROLE_ADMIN)));
+        //username:password -> admin:admin
+        data.put("admin", new Person("admin", "dQNjUIMorJb8Ubj2+wVGYp6eAeYkdekqAcnYp+aRq5w="));
     }
+
+//    Mono<String> getRoleOfUser(String username) {
+//        return peopleRepository.getPersonRole(username);
+//
+//    }
+
 }

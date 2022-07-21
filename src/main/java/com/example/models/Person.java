@@ -3,15 +3,11 @@ package com.example.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Collections;
+
+
 
 @Table(name = "person")
 public class Person  {
@@ -33,12 +29,12 @@ public class Person  {
     private String role;
 
 
-
-    public Person(String username, int yearOfBirth, String role) {
+    public Person(String username, String password) {
         this.username = username;
-        this.yearOfBirth = yearOfBirth;
-        this.role = role;
+        this.password = password;
+        this.role= "ROLE_USER";
     }
+
 
     public String getRole() {
         return role;
@@ -50,6 +46,7 @@ public class Person  {
 
     public Person() {
     }
+
 
     public int getId() {
         return id;
